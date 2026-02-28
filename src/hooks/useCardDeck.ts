@@ -10,12 +10,18 @@ function shuffle<T>(arr: T[]): T[] {
   return a;
 }
 
+export type SwipeDir = 'left' | 'right' | null;
+
 export interface CardDeckState {
   deck: string[];
   drawnIndex: number;
   isFlipped: boolean;
   isAnimating: boolean;
+  swipeDir: SwipeDir;
+  successCount: number;
+  failCount: number;
   drawCard: () => void;
+  swipeCard: (dir: 'left' | 'right') => void;
   resetDeck: () => void;
 }
 
@@ -24,6 +30,9 @@ export function useCardDeck(): CardDeckState {
   const [drawnIndex, setDrawnIndex] = useState<number>(-1);
   const [isFlipped, setIsFlipped] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [swipeDir, setSwipeDir] = useState<SwipeDir>(null);
+  const [successCount, setSuccessCount] = useState(0);
+  const [failCount, setFailCount] = useState(0);
 
   const drawCard = useCallback(() => {
     if (isAnimating) return;
@@ -48,14 +57,40 @@ export function useCardDeck(): CardDeckState {
     }
   }, [deck.length, drawnIndex, isAnimating, isFlipped]);
 
+  const swipeCard = useCallback((dir: 'left' | 'right') => {
+    if (isAnimating || !isFlipped) return;
+    if (dir === 'right') setSuccessCount((c) => c + 1);
+    else setFailCount((c) => c + 1);
+
+    setIsAnimating(true);
+    setSwipeDir(dir);
+
+    // After swipe-out animation, load next card
+    setTimeout(() => {
+      setSwipeDir(null);
+      setIsFlipped(false);
+      const nextIndex = drawnIndex + 1;
+      if (nextIndex < deck.length) {
+        setDrawnIndex(nextIndex);
+        setIsFlipped(true);
+        setTimeout(() => setIsAnimating(false), 450);
+      } else {
+        setIsAnimating(false);
+      }
+    }, 350);
+  }, [deck.length, drawnIndex, isAnimating, isFlipped]);
+
   const resetDeck = useCallback(() => {
     setIsFlipped(false);
     setIsAnimating(false);
+    setSwipeDir(null);
     setTimeout(() => {
       setDeck(shuffle(questions));
       setDrawnIndex(-1);
+      setSuccessCount(0);
+      setFailCount(0);
     }, 300);
   }, []);
 
-  return { deck, drawnIndex, isFlipped, isAnimating, drawCard, resetDeck };
+  return { deck, drawnIndex, isFlipped, isAnimating, swipeDir, successCount, failCount, drawCard, swipeCard, resetDeck };
 }

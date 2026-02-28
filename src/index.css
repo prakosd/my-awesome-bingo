@@ -135,3 +135,15 @@ body {
   0%, 100% { box-shadow: 0 0 8px #33ff0066; }
   50%       { box-shadow: 0 0 24px #33ff00, 0 0 48px #33ff0055; }
 }
+
+/* Card swipe out left (fail) */
+@keyframes cardSwipeLeft {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateX(-130%) rotate(-18deg); opacity: 0; }
+}
+
+/* Card swipe out right (success) */
+@keyframes cardSwipeRight {
+  0%   { transform: translateX(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateX(130%) rotate(18deg); opacity: 0; }
+}

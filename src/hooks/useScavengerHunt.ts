@@ -105,20 +105,16 @@ export function useScavengerHunt(): ScavengerGameState & ScavengerGameActions {
   }, []);
 
   const toggleItem = useCallback((id: number) => {
-    setItems((current) => {
-      const newItems = current.map((item) =>
-        item.id === id ? { ...item, isChecked: !item.isChecked } : item
-      );
-      const newCheckedCount = newItems.filter((i) => i.isChecked).length;
-      if (newCheckedCount >= target && target > 0) {
-        queueMicrotask(() => {
-          setGameState('complete');
-          setShowCompleteModal(true);
-        });
-      }
-      return newItems;
-    });
-  }, [target]);
+    const newItems = items.map((item) =>
+      item.id === id ? { ...item, isChecked: !item.isChecked } : item
+    );
+    const newCheckedCount = newItems.filter((i) => i.isChecked).length;
+    setItems(newItems);
+    if (newCheckedCount >= target && target > 0) {
+      setGameState('complete');
+      setShowCompleteModal(true);
+    }
+  }, [items, target]);
 
   const resetGame = useCallback(() => {
     setGameState('start');

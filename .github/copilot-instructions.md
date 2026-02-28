@@ -23,5 +23,16 @@ React 19 · TypeScript 5.9 (strict, `verbatimModuleSyntax`) · Tailwind CSS v4 (
 ## Game Logic
 5×5 board (`BingoSquareData[25]`), center index 12 = free space. Pure functions in `src/utils/bingoLogic.ts`: `generateBoard`, `toggleSquare`, `checkBingo`, `getWinningSquareIds`. State persisted to `localStorage` (`'bingo-game-state'`). States: `'start' | 'playing' | 'bingo'`.
 
+## Design Guide — Retro Terminal Green
+- **Theme**: CRT phosphor terminal aesthetic. Dark backgrounds (`#0a0a0a` / `#111111`), bright phosphor green (`#33ff00`) as primary, dim green (`#1a8a00`) for secondary text, amber (`#ffcc00`) for bingo/winning highlights.
+- **Fonts**: `VT323` (body/game text) + `Share Tech Mono` (headings/labels). Loaded via Google Fonts in `index.html`. Mapped to `--font-terminal` and `--font-terminal-heading` theme tokens.
+- **Color tokens** (in `@theme`): `terminal-green`, `terminal-dim`, `terminal-dark`, `terminal-bg`, `terminal-surface`, `marked`, `marked-border`, `bingo`, `accent`, `accent-light`.
+- **CRT effects** (in `src/index.css`): Scanline overlay on `#root::after` (repeating-linear-gradient), `@keyframes` for `flicker`, `blink`, `glowPulse`, `typeIn`, `screenOn`.
+- **Visual conventions**: No rounded corners (sharp/square edges). ASCII-style markers (`[X]` for checked, `>` for prompts, `***` for banners). Green `text-shadow` glow on primary elements. Terminal comment syntax (`// ...`) for instructional text.
+- **Buttons**: Inverted green (`bg-terminal-green text-terminal-bg`) with hover glow (`box-shadow: 0 0 20px #33ff00`). Labels in `UPPER_SNAKE_CASE` with `>` prefix.
+- **Board squares**: Dim green on dark surface (default), bright green with glow (marked), amber pulsing glow (winning). 1px grid gaps for terminal-cell look.
+- **Modal overlay**: Heavy dimming (`bg-black/80`), green-bordered card with large glow shadow, `typeIn` animation on appearance.
+- Keep all new UI consistent with this aesthetic. No emojis in UI — use ASCII/text art instead.
+
 ## Deployment
 GitHub Pages via `.github/workflows/deploy.yml`; base path from `VITE_REPO_NAME` env var.

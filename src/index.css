@@ -1,11 +1,19 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-accent: #2563eb;
-  --color-accent-light: #3b82f6;
-  --color-marked: #dcfce7;
-  --color-marked-border: #22c55e;
-  --color-bingo: #fbbf24;
+  --color-terminal-green: #33ff00;
+  --color-terminal-dim: #1a8a00;
+  --color-terminal-dark: #0d2b00;
+  --color-terminal-bg: #0a0a0a;
+  --color-terminal-surface: #111111;
+  --color-marked: #33ff00;
+  --color-marked-border: #1a8a00;
+  --color-bingo: #ffcc00;
+  --color-accent: #33ff00;
+  --color-accent-light: #66ff33;
+
+  --font-terminal: 'VT323', monospace;
+  --font-terminal-heading: 'Share Tech Mono', monospace;
 }
 
 html,
@@ -16,6 +24,65 @@ body,
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-terminal);
+  background-color: #0a0a0a;
+  color: #33ff00;
   -webkit-tap-highlight-color: transparent;
+}
+
+/* CRT scanline overlay */
+#root {
+  position: relative;
+}
+
+#root::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.15) 2px,
+    rgba(0, 0, 0, 0.15) 4px
+  );
+}
+
+/* CRT flicker animation */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.8; }
+  94% { opacity: 1; }
+  96% { opacity: 0.9; }
+  97% { opacity: 1; }
+}
+
+/* Cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Terminal type-in reveal */
+@keyframes typeIn {
+  0% { opacity: 0; transform: translateY(8px); }
+  30% { opacity: 0.6; }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Glow pulse for bingo winning */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 6px #ffcc00; }
+  50% { box-shadow: 0 0 20px #ffcc00, 0 0 40px #ffcc0044; }
+}
+
+/* Screen on animation */
+@keyframes screenOn {
+  0% { opacity: 0; transform: scaleY(0.01); }
+  40% { opacity: 0.6; transform: scaleY(0.01); }
+  50% { opacity: 1; transform: scaleY(1) scaleX(0.5); }
+  100% { opacity: 1; transform: scaleY(1) scaleX(1); }
 }

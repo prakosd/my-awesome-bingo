@@ -4,25 +4,27 @@ interface StartScreenProps {
 
 export function StartScreen({ onStart }: StartScreenProps) {
   return (
-    <div className="flex flex-col items-center justify-center min-h-full p-6 bg-gray-50">
-      <div className="text-center max-w-sm">
-        <h1 className="text-4xl font-bold text-gray-900 mb-2">Soc Ops</h1>
-        <p className="text-lg text-gray-600 mb-8">Social Bingo</p>
+    <div className="flex flex-col items-center justify-center min-h-full p-6 bg-terminal-bg animate-[screenOn_0.6s_ease-out]">
+      <div className="text-center max-w-sm animate-[flicker_4s_infinite]">
+        <h1 className="font-terminal-heading text-5xl text-terminal-green mb-1 [text-shadow:0_0_10px_#33ff00,0_0_30px_#33ff0044]">
+          SOC_OPS<span className="animate-[blink_1s_step-end_infinite]">_</span>
+        </h1>
+        <p className="text-lg text-terminal-dim mb-10 font-terminal-heading tracking-wide">// social bingo terminal</p>
         
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-8">
-          <h2 className="font-semibold text-gray-800 mb-3">How to play</h2>
-          <ul className="text-left text-gray-600 text-sm space-y-2">
-            <li>• Find people who match the questions</li>
-            <li>• Tap a square when you find a match</li>
-            <li>• Get 5 in a row to win!</li>
+        <div className="border border-terminal-dim bg-terminal-surface p-5 mb-10 text-left">
+          <h2 className="text-terminal-green font-terminal-heading mb-3 text-sm tracking-wider">README.TXT</h2>
+          <ul className="text-terminal-dim text-lg space-y-2 font-terminal">
+            <li>&gt; Find people who match the prompts</li>
+            <li>&gt; Tap a square when you find a match</li>
+            <li>&gt; Complete 5 in a row to win</li>
           </ul>
         </div>
 
         <button
           onClick={onStart}
-          className="w-full bg-accent text-white font-semibold py-4 px-8 rounded-lg text-lg active:bg-accent-light transition-colors"
+          className="w-full bg-terminal-green text-terminal-bg font-terminal-heading py-4 px-8 text-xl tracking-widest transition-all duration-150 active:bg-accent-light hover:[box-shadow:0_0_20px_#33ff00,0_0_40px_#33ff0033]"
         >
-          Start Game
+          &gt; START_GAME
         </button>
       </div>
     </div>

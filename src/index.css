@@ -110,3 +110,10 @@ body {
   0%, 100% { opacity: 0; }
   20%, 80% { opacity: 1; }
 }
+
+/* Prompt cycling fade */
+@keyframes promptCycle {
+  0% { opacity: 1; }
+  60% { opacity: 0; }
+  100% { opacity: 0; }
+}

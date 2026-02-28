@@ -86,3 +86,10 @@ body {
   50% { opacity: 1; transform: scaleY(1) scaleX(0.5); }
   100% { opacity: 1; transform: scaleY(1) scaleX(1); }
 }
+
+/* Prompt cycling fade */
+@keyframes promptCycle {
+  0% { opacity: 1; }
+  60% { opacity: 0; }
+  100% { opacity: 0; }
+}

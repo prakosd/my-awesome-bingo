@@ -1,0 +1,23 @@
+- generic [ref=e4]:
+  - generic [ref=e5]:
+    - heading "SOC_OPS_v2.1.0" [level=1] [ref=e6]
+    - paragraph [ref=e7]: // social bingo terminal
+  - generic [ref=e8]:
+    - generic [ref=e9]:
+      - generic [ref=e10]: GRID_PREVIEW
+      - generic [ref=e11]: ┌─┬─┬─┬─┬─┐ │ │ │ │ │ │ ├─┼─┼─┼─┼─┤ │ │ │ │ │ │ ├─┼─┼─┼─┼─┤ │ │ │★│ │ │ ├─┼─┼─┼─┼─┤ │ │ │ │ │ │ ├─┼─┼─┼─┼─┤ │ │ │ │ │ │ └─┴─┴─┴─┴─┘
+    - generic [ref=e12]:
+      - generic [ref=e13]: SYS_INFO
+      - generic [ref=e14]:
+        - generic [ref=e15]: "STATUS: RDY"
+        - generic [ref=e16]:
+          - text: "PROMPTS:"
+          - generic [ref=e17]: "24"
+        - generic [ref=e18]: "GRID: 5x5"
+        - generic [ref=e19]: "WIN_COND: 5_IN_ROW"
+      - generic [ref=e20]: SAMPLE_PROMPT
+      - generic [ref=e21]: "> \"played a classic board game this year\""
+  - generic [ref=e23]:
+    - button "> BINGO_MODE" [ref=e24] [cursor=pointer]
+    - button "> SCAVENGER" [ref=e25] [cursor=pointer]
+    - button "> CARD_DECK" [ref=e26] [cursor=pointer]

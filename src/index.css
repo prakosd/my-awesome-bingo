@@ -93,3 +93,15 @@ body {
   60% { opacity: 0; }
   100% { opacity: 0; }
 }
+
+/* Boot line fade-in with upward slide */
+@keyframes fadeInLine {
+  0% { opacity: 0; transform: translateY(6px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Typewriter text reveal */
+@keyframes typeWriter {
+  0% { width: 0; }
+  100% { width: 100%; }
+}

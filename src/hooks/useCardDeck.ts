@@ -27,8 +27,8 @@ export interface CardDeckState {
 
 export function useCardDeck(): CardDeckState {
   const [deck, setDeck] = useState<string[]>(() => shuffle(questions));
-  const [drawnIndex, setDrawnIndex] = useState<number>(-1);
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [drawnIndex, setDrawnIndex] = useState<number>(0);
+  const [isFlipped, setIsFlipped] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
   const [swipeDir, setSwipeDir] = useState<SwipeDir>(null);
   const [successCount, setSuccessCount] = useState(0);
@@ -86,7 +86,8 @@ export function useCardDeck(): CardDeckState {
     setSwipeDir(null);
     setTimeout(() => {
       setDeck(shuffle(questions));
-      setDrawnIndex(-1);
+      setDrawnIndex(0);
+      setIsFlipped(true);
       setSuccessCount(0);
       setFailCount(0);
     }, 300);

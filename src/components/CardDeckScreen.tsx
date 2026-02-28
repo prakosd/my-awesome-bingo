@@ -101,7 +101,7 @@ export function CardDeckScreen({
             [✗] <span className="text-terminal-dim">{String(failCount).padStart(2, '0')}</span>
           </span>
           <span className="text-center text-terminal-dim">
-            {deckExhausted ? '// EMPTY' : drawnIndex >= 0 ? `${Math.max(0, remaining)} LEFT` : '// READY'}
+            {deckExhausted ? '// EMPTY' : `${Math.max(0, remaining)} LEFT`}
           </span>
           <span className="text-right text-terminal-green [text-shadow:0_0_6px_#33ff0066]">
             <span className="text-terminal-dim">{String(successCount).padStart(2, '0')}</span> [✓]

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import type { GameMode } from '../types';
 import { questions } from '../data/questions';
 
 interface StartScreenProps {
-  onStart: () => void;
+  onStart: (mode: GameMode, target?: number) => void;
 }
 
 const APP_VERSION = 'v2.1.0';
@@ -24,6 +25,9 @@ const GRID_ROWS = [
 export function StartScreen({ onStart }: StartScreenProps) {
   const [promptIdx, setPromptIdx] = useState(0);
   const [promptVisible, setPromptVisible] = useState(true);
+  const [selectedMode, setSelectedMode] = useState<'bingo' | 'scavenger' | null>(null);
+  const [scavengerTarget, setScavengerTarget] = useState(12);
+  const [customInput, setCustomInput] = useState('12');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -63,9 +67,20 @@ export function StartScreen({ onStart }: StartScreenProps) {
             <div className="text-xs text-terminal-dim font-terminal-heading mb-1 tracking-wider">SYS_INFO</div>
             <div className="font-terminal text-base space-y-0.5 mb-3">
               <div><span className="text-terminal-green">STATUS:</span><span className="text-terminal-dim"> RDY</span></div>
-              <div><span className="text-terminal-green">PROMPTS:</span><span className="text-terminal-dim"> {questions.length}</span></div>
-              <div><span className="text-terminal-green">GRID:</span><span className="text-terminal-dim"> 5x5</span></div>
-              <div><span className="text-terminal-green">WIN_COND:</span><span className="text-terminal-dim"> 5_IN_ROW</span></div>
+              {selectedMode === 'scavenger' ? (
+                <>
+                  <div><span className="text-terminal-green">MODE:</span><span className="text-terminal-dim"> SCAVENGER</span></div>
+                  <div><span className="text-terminal-green">ITEMS:</span><span className="text-terminal-dim"> 24</span></div>
+                  <div><span className="text-terminal-green">WIN_COND:</span><span className="text-terminal-dim"> FIRST_N</span></div>
+                  <div><span className="text-terminal-green">TARGET:</span><span className="text-terminal-dim"> {scavengerTarget}</span></div>
+                </>
+              ) : (
+                <>
+                  <div><span className="text-terminal-green">PROMPTS:</span><span className="text-terminal-dim"> {questions.length}</span></div>
+                  <div><span className="text-terminal-green">GRID:</span><span className="text-terminal-dim"> 5x5</span></div>
+                  <div><span className="text-terminal-green">WIN_COND:</span><span className="text-terminal-dim"> 5_IN_ROW</span></div>
+                </>
+              )}
             </div>
             <div className="text-xs text-terminal-dim font-terminal-heading mb-1 tracking-wider">SAMPLE_PROMPT</div>
             <div
@@ -78,14 +93,68 @@ export function StartScreen({ onStart }: StartScreenProps) {
 
         </div>
 
-        {/* Start button */}
+        {/* Mode selection */}
         <div className="p-3">
-          <button
-            onClick={onStart}
-            className="w-full bg-terminal-green text-terminal-bg font-terminal-heading py-3 px-8 text-xl tracking-widest transition-all duration-150 active:bg-accent-light hover:[box-shadow:0_0_20px_#33ff00,0_0_40px_#33ff0033]"
-          >
-            &gt; START_GAME
-          </button>
+          <div className="flex gap-4 mt-4">
+            <button
+              className="bg-terminal-green text-terminal-bg font-terminal-heading px-4 py-2 hover:shadow-[0_0_20px_#33ff00] transition-shadow cursor-pointer"
+              onClick={() => onStart('bingo')}
+            >
+              &gt; BINGO_MODE
+            </button>
+            <button
+              className={`font-terminal-heading px-4 py-2 transition-all cursor-pointer ${
+                selectedMode === 'scavenger'
+                  ? 'bg-terminal-green text-terminal-bg hover:shadow-[0_0_20px_#33ff00]'
+                  : 'border border-terminal-green text-terminal-green bg-transparent hover:shadow-[0_0_10px_#33ff00]'
+              }`}
+              onClick={() => setSelectedMode('scavenger')}
+            >
+              &gt; SCAVENGER_MODE
+            </button>
+          </div>
+
+          {selectedMode === 'scavenger' && (
+            <div className="mt-4 space-y-2 border border-terminal-dark bg-terminal-surface p-4">
+              <p className="font-terminal text-terminal-dim text-sm">// SET_TARGET: find first N of 24</p>
+              <div className="flex items-center gap-2 flex-wrap">
+                {[6, 12, 18, 24].map((n) => (
+                  <button
+                    key={n}
+                    className={`font-terminal-heading px-3 py-1 text-sm transition-all cursor-pointer ${
+                      scavengerTarget === n
+                        ? 'bg-terminal-green text-terminal-bg'
+                        : 'border border-terminal-dim text-terminal-dim hover:border-terminal-green hover:text-terminal-green'
+                    }`}
+                    onClick={() => { setScavengerTarget(n); setCustomInput(String(n)); }}
+                  >
+                    [{String(n).padStart(2, '0')}]
+                  </button>
+                ))}
+                <span className="font-terminal text-terminal-dim text-xs">// OR</span>
+                <input
+                  type="number"
+                  min={1}
+                  max={24}
+                  value={customInput}
+                  className="border border-terminal-dim bg-terminal-surface text-terminal-green font-terminal w-16 text-center p-1 text-sm"
+                  onChange={(e) => setCustomInput(e.target.value)}
+                  onBlur={() => {
+                    const n = Math.min(24, Math.max(1, parseInt(customInput, 10) || 1));
+                    setScavengerTarget(n);
+                    setCustomInput(String(n));
+                  }}
+                />
+              </div>
+              <p className="font-terminal text-terminal-dim text-sm">TARGET: {scavengerTarget}</p>
+              <button
+                className="bg-terminal-green text-terminal-bg font-terminal-heading px-6 py-2 hover:shadow-[0_0_20px_#33ff00] transition-shadow cursor-pointer"
+                onClick={() => onStart('scavenger', scavengerTarget)}
+              >
+                &gt; START_HUNT
+              </button>
+            </div>
+          )}
         </div>
 
       </div>

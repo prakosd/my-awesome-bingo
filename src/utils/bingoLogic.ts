@@ -1,5 +1,5 @@
 import { questions, FREE_SPACE } from '../data/questions';
-import type { BingoSquareData, BingoLine } from '../types';
+import type { BingoSquareData, BingoLine, ScavengerItem } from '../types';
 
 // Re-export types for convenience
 export type { BingoSquareData, BingoLine } from '../types';
@@ -123,4 +123,20 @@ export function checkBingo(board: BingoSquareData[]): BingoLine | null {
 export function getWinningSquareIds(line: BingoLine | null): Set<number> {
   if (!line) return new Set();
   return new Set(line.squares);
+}
+
+/**
+ * Generate a shuffled checklist of all questions (excluding FREE_SPACE).
+ *
+ * @returns An array of 24 {@link ScavengerItem} objects with sequential ids (0–23),
+ *   each question's text, and `isChecked` initialised to `false`.
+ */
+export function generateChecklist(): ScavengerItem[] {
+  const filtered = questions.filter((q) => q !== FREE_SPACE);
+  const shuffled = shuffleArray(filtered);
+  return shuffled.map((text, index) => ({
+    id: index,
+    text,
+    isChecked: false,
+  }));
 }

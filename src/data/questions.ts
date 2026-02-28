@@ -1,4 +1,41 @@
+// Developer / Tech-Team Icebreaker Bingo
+// Mix: ~55 % easy · ~30 % medium · ~15 % bold + 3 wildcard actions
 export const questions: string[] = [
+  // ── Easy (gimme) ─────────────────────────────────────────────────
+  "Uses dark mode by default",
+  "Has more than 10 browser tabs open right now",
+  "Has said 'it works on my machine'",
+  "Prefers spaces over tabs",
+  "Has restarted a device to fix a problem",
+  "Drinks coffee or tea while working",
+  "Has copy-pasted code from the internet",
+  "Knows the keyboard shortcut for undo",
+  "Has named a variable 'temp' or 'foo'",
+  "Has silenced a notification mid-meeting",
+  "Has a second monitor",
+  "Has forgotten a semicolon and spent too long debugging it",
+  "Has a to-do list app (and actually uses it)",
+  "Has attended a meeting that could have been an email",
+  // ── Medium ───────────────────────────────────────────────────────
+  "Has pair-programmed with a colleague",
+  "Built a side project just for fun",
+  "Has written a unit test that caught a real bug",
+  "Has given a demo or tech talk to the team",
+  "Has written documentation nobody will ever read",
+  "Has said 'that's tech debt we'll fix later'",
+  "Contributed to an open-source project",
+  "Has broken production at least once",
+  "Has worked across three or more time zones with teammates",
+  // ── Bold ─────────────────────────────────────────────────────────
+  "Can explain recursion without drawing a diagram",
+  "Has challenged a technical decision in a meeting",
+  "Has written code in a language they'd never use again",
+  // ── Wildcard actions ─────────────────────────────────────────────
+  "Teach someone a keyboard shortcut right now",
+  "Beat your neighbour at rock-paper-scissors",
+  "Type your job title using only your elbows",
+]; /*
+
   "bikes to work",
   "has lived in another country",
   "has a pet",
@@ -23,6 +60,6 @@ export const questions: string[] = [
   "collects something unique",
   "has read a book this month",
   "knows sign language",
-];
+]; */
 
 export const FREE_SPACE = "FREE SPACE";

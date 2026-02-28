@@ -86,3 +86,15 @@ body {
   50% { opacity: 1; transform: scaleY(1) scaleX(0.5); }
   100% { opacity: 1; transform: scaleY(1) scaleX(1); }
 }
+
+/* Breathing glow for title */
+@keyframes breathe {
+  0%, 100% { text-shadow: 0 0 10px #33ff00, 0 0 20px #33ff0044; }
+  50% { text-shadow: 0 0 20px #33ff00, 0 0 40px #33ff00, 0 0 80px #33ff0033; }
+}
+
+/* Fade in/out for cycling prompts */
+@keyframes promptFade {
+  0%, 100% { opacity: 0; }
+  20%, 80% { opacity: 1; }
+}

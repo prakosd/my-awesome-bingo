@@ -25,7 +25,7 @@ const GRID_ROWS = [
 export function StartScreen({ onStart }: StartScreenProps) {
   const [promptIdx, setPromptIdx] = useState(0);
   const [promptVisible, setPromptVisible] = useState(true);
-  const [selectedMode, setSelectedMode] = useState<'bingo' | 'scavenger' | null>(null);
+  const [selectedMode, setSelectedMode] = useState<'bingo' | 'scavenger' | 'card-deck' | null>(null);
   const [scavengerTarget, setScavengerTarget] = useState(12);
   const [customInput, setCustomInput] = useState('12');
 
@@ -74,6 +74,13 @@ export function StartScreen({ onStart }: StartScreenProps) {
                   <div><span className="text-terminal-green">WIN_COND:</span><span className="text-terminal-dim"> FIRST_N</span></div>
                   <div><span className="text-terminal-green">TARGET:</span><span className="text-terminal-dim"> {scavengerTarget}</span></div>
                 </>
+              ) : selectedMode === 'card-deck' ? (
+                <>
+                  <div><span className="text-terminal-green">MODE:</span><span className="text-terminal-dim"> CARD_DECK</span></div>
+                  <div><span className="text-terminal-green">CARDS:</span><span className="text-terminal-dim"> {questions.length}</span></div>
+                  <div><span className="text-terminal-green">DRAW:</span><span className="text-terminal-dim"> 1_AT_TIME</span></div>
+                  <div><span className="text-terminal-green">WIN_COND:</span><span className="text-terminal-dim"> SOCIAL</span></div>
+                </>
               ) : (
                 <>
                   <div><span className="text-terminal-green">PROMPTS:</span><span className="text-terminal-dim"> {questions.length}</span></div>
@@ -95,7 +102,7 @@ export function StartScreen({ onStart }: StartScreenProps) {
 
         {/* Mode selection */}
         <div className="p-3">
-          <div className="flex gap-4 mt-4">
+          <div className="flex flex-wrap gap-2 mt-4">
             <button
               className="bg-terminal-green text-terminal-bg font-terminal-heading px-4 py-2 hover:shadow-[0_0_20px_#33ff00] transition-shadow cursor-pointer"
               onClick={() => onStart('bingo')}
@@ -108,11 +115,34 @@ export function StartScreen({ onStart }: StartScreenProps) {
                   ? 'bg-terminal-green text-terminal-bg hover:shadow-[0_0_20px_#33ff00]'
                   : 'border border-terminal-green text-terminal-green bg-transparent hover:shadow-[0_0_10px_#33ff00]'
               }`}
-              onClick={() => setSelectedMode('scavenger')}
+              onClick={() => setSelectedMode(selectedMode === 'scavenger' ? null : 'scavenger')}
             >
-              &gt; SCAVENGER_MODE
+              &gt; SCAVENGER
+            </button>
+            <button
+              className={`font-terminal-heading px-4 py-2 transition-all cursor-pointer ${
+                selectedMode === 'card-deck'
+                  ? 'bg-terminal-green text-terminal-bg hover:shadow-[0_0_20px_#33ff00]'
+                  : 'border border-terminal-green text-terminal-green bg-transparent hover:shadow-[0_0_10px_#33ff00]'
+              }`}
+              onClick={() => setSelectedMode(selectedMode === 'card-deck' ? null : 'card-deck')}
+            >
+              &gt; CARD_DECK
             </button>
           </div>
+
+          {selectedMode === 'card-deck' && (
+            <div className="mt-4 space-y-2 border border-terminal-dark bg-terminal-surface p-4">
+              <p className="font-terminal text-terminal-dim text-sm">// DRAW_CARDS: one question per player</p>
+              <p className="font-terminal text-terminal-dim text-sm">// deck shuffles {questions.length} prompts · tap to flip</p>
+              <button
+                className="mt-2 bg-terminal-green text-terminal-bg font-terminal-heading px-6 py-2 hover:shadow-[0_0_20px_#33ff00] transition-shadow cursor-pointer"
+                onClick={() => onStart('card-deck')}
+              >
+                &gt; DEAL_CARDS
+              </button>
+            </div>
+          )}
 
           {selectedMode === 'scavenger' && (
             <div className="mt-4 space-y-2 border border-terminal-dark bg-terminal-surface p-4">

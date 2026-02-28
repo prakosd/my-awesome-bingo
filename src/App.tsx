@@ -1,10 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useBingoGame } from './hooks/useBingoGame';
 import { useScavengerHunt } from './hooks/useScavengerHunt';
+import { useCardDeck } from './hooks/useCardDeck';
 import { StartScreen } from './components/StartScreen';
 import { GameScreen } from './components/GameScreen';
 import { BingoModal } from './components/BingoModal';
 import { ScavengerScreen } from './components/ScavengerScreen';
+import { CardDeckScreen } from './components/CardDeckScreen';
 import type { GameMode } from './types';
 
 function App() {
@@ -22,9 +24,13 @@ function App() {
   const scavenger = useScavengerHunt();
   const { startGame: startScavengerGame } = scavenger;
 
+  const cardDeck = useCardDeck();
+  const [cardDeckActive, setCardDeckActive] = useState(false);
+
   const handleStart = useCallback((mode: GameMode, target?: number) => {
     if (mode === 'bingo') startGame();
-    else startScavengerGame(target ?? 12);
+    else if (mode === 'scavenger') startScavengerGame(target ?? 12);
+    else if (mode === 'card-deck') setCardDeckActive(true);
   }, [startGame, startScavengerGame]);
 
   if (gameState !== 'start') {
@@ -53,6 +59,15 @@ function App() {
         onToggle={scavenger.toggleItem}
         onReset={scavenger.resetGame}
         onDismissModal={scavenger.dismissModal}
+      />
+    );
+  }
+
+  if (cardDeckActive) {
+    return (
+      <CardDeckScreen
+        {...cardDeck}
+        onBack={() => { cardDeck.resetDeck(); setCardDeckActive(false); }}
       />
     );
   }

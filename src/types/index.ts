@@ -17,7 +17,7 @@ export type GameState = 'start' | 'playing' | 'bingo';
 
 export type ScavengerHuntPhase = 'start' | 'playing' | 'complete';
 
-export type GameMode = 'bingo' | 'scavenger';
+export type GameMode = 'bingo' | 'scavenger' | 'card-deck';
 
 export interface ScavengerItem {
   id: number;
